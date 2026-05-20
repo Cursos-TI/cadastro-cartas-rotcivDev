@@ -12,8 +12,11 @@ $(TARGET): $(SRC)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # regra para remover binario gerado 
-clean:
+limpa:
 	rm -f $(TARGET)
 
+teste: limpa $(TARGET)
+	./teste.sh ./$(TARGET)
+
 # reserva o nome dos comandos para nao confundir com nome de pastas
-.PHONY: all clean
+.PHONY: all limpa teste_novato

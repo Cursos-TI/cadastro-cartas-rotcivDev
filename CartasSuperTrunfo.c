@@ -41,7 +41,9 @@
 #define IMPRIME_POPULACAO "População: %d\n\n"
 #define IMPRIME_AREA "Área: %.2f km²\n\n"
 #define IMPRIME_PIB "PIB: %.2f bilhões de reais\n\n"
-#define IMPRIME_PONTOS_TURISTICOS "Número de Pontos Turísticos: %d\n"
+#define IMPRIME_PONTOS_TURISTICOS "Número de Pontos Turísticos: %d\n\n"
+#define IMPRIME_DENSIDADE_POPULACIONAL "Densidade Populacional: %.2f hab/km²\n\n"
+#define IMPRIME_PIB_PERCAPTA "PIB per Capita: %.2f reais\n"
 
 void limpa_residuo_stdin() {
   // * eh um caracter de supressao que permite ao scanf nao armazenar em nenhuma
@@ -50,6 +52,15 @@ void limpa_residuo_stdin() {
   // "%*c" -> consuma o \n que sobra
   scanf("%*[^\n]");
   scanf("%*c");
+}
+
+float calcula_densidade_populacional(int populacao, float area) {
+  return (float) populacao / area;
+}
+
+float calcula_pib_per_capta(float pib, int populacao) {
+  // converte PIB de bilhoes de reais para reais
+  return (float) (pib * 1000000000.00) / populacao;
 }
 
 // Seguindo as recomendacoes de nao utilizar validacoes ou lacos, fiz o maximo
@@ -73,6 +84,8 @@ int main() {
   float area_1, area_2;
   float pib_1, pib_2;
   int pontos_turisticos_1, pontos_turisticos_2;
+  float densidade_populacional_1, densidade_populacional_2;
+  float pib_percapta_1, pib_percapta_2;
   
   // Área para entrada de dados
   printf(PROMPT_CARTA, "Carta 1");
@@ -120,9 +133,17 @@ int main() {
   printf(PROMPT_PONTOS_TURISTICOS);
   scanf(FORMATO_LEITURA_PONTOS_TURISTICOS, &pontos_turisticos_2);
   limpa_residuo_stdin();
-/*----------------------------------------------------------------------------*/
 
-// Área para exibição dos dados da cidade
+  // Area para atribuicao de variaveis computadas
+  densidade_populacional_1 =
+    calcula_densidade_populacional(populacao_1, area_1);
+  pib_percapta_1 = calcula_pib_per_capta(pib_1, populacao_1);
+
+  densidade_populacional_2 =
+    calcula_densidade_populacional(populacao_2, area_2);
+  pib_percapta_2 = calcula_pib_per_capta(pib_2, populacao_2);
+
+  // Área para exibição dos dados da cidade
   printf(IMPRIME_CABECALHO, 1);
   printf(IMPRIME_ESTADO, estado_1);
   printf(IMPRIME_CODIGO, estado_1, codigo_1);
@@ -131,6 +152,8 @@ int main() {
   printf(IMPRIME_AREA, area_1);
   printf(IMPRIME_PIB, pib_1);
   printf(IMPRIME_PONTOS_TURISTICOS, pontos_turisticos_1);
+  printf(IMPRIME_DENSIDADE_POPULACIONAL, densidade_populacional_1);
+  printf(IMPRIME_PIB_PERCAPTA, pib_percapta_1);
   printf(IMPRIME_SEPARADOR);
 
   printf(IMPRIME_CABECALHO, 2);
@@ -141,6 +164,8 @@ int main() {
   printf(IMPRIME_AREA, area_2);
   printf(IMPRIME_PIB, pib_2);
   printf(IMPRIME_PONTOS_TURISTICOS, pontos_turisticos_2);
+  printf(IMPRIME_DENSIDADE_POPULACIONAL, densidade_populacional_2);
+  printf(IMPRIME_PIB_PERCAPTA, pib_percapta_2);
   printf(IMPRIME_SEPARADOR);
   
   return 0;
